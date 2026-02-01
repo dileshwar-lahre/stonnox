@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Matte Black Background for Premium Look */
+  --background: #050505; 
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,15 +13,28 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Smooth Scrolling Rule - Yahi sabse zaroori hai */
+html {
+  scroll-behavior: smooth !important;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Side scroll rokne ke liye */
+}
+
+/* Scrollbar ko bhi Orange theme mein set kar diya */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #ea580c; /* Orange-600 */
+  border-radius: 10px;
 }
