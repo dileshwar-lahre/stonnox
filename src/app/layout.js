@@ -16,6 +16,10 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Stonenox | High-Performance Tech Collective",
   description: "Lahre Brothers - Engineering premium digital experiences in Chhattisgarh.",
+  verification: {
+    // Jo code tujhe mila hai usme se content="" ke andar wala part yahan copy kar
+    google: "TERA_google-site-verification=l7UjP3fo8CBJAu2y00BL5yG7n1zqataVEDwFcnxb8Z0",
+  },
 };
 
 export default function RootLayout({ children }) {
