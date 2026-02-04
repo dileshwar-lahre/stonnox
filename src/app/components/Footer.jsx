@@ -28,7 +28,7 @@ export default function Footer() {
           <div className="flex flex-col items-center space-y-8">
             <div className="flex gap-5">
               {[
-                { icon: <FaInstagram size={22} />, link: "https://instagram.com/cginfrax" },
+                { icon: <FaInstagram size={22} />, link: "https://instagram.com/stone_nox" },
                 { icon: <FaFacebookF size={22} />, link: "#" },
                 { icon: <FaLinkedinIn size={22} />, link: "#" },
                 { icon: <FaTwitter size={22} />, link: "#" }
@@ -45,7 +45,7 @@ export default function Footer() {
             <div className="text-center space-y-2">
               <p className="text-sm font-black text-indigo-400 uppercase tracking-[0.2em]">Contact Us</p>
               <a href="mailto:supportstonenox@gmail.com" className="text-lg font-bold text-white hover:text-indigo-400 transition-colors border-b-2 border-transparent hover:border-indigo-400">
-                supportstonenox@gmail.com
+                support@stonenox.com
               </a>
             </div>
           </div>
