@@ -5,26 +5,24 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
-// MAIN LINKS: Yahan 'href' update kiya hai scroll wale sections ke liye ('#about', '#services')
+// MAIN LINKS
 const mainLinks = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
   { name: "Services", href: "#services" },
-  // Yeh ek naya page hoga, toh isko normal link rahne diya
   { name: "For Startup", href: "/startup", tag: "NEW" }
 ];
 
-// MORE LINKS: Inko tum alag pages banaoge, toh aise hi chhod diya hai
+// MORE LINKS
 const moreLinks = [
   { name: "Career", href: "/career" },
-  { name: "Contact", href: "#contact" }, // Agar contact bhi same page pe hai, toh "#contact" kar diya
+  { name: "Contact", href: "#contact" }, 
   { name: "Support", href: "/support" },
   { name: "Refund Policy", href: "/refund-policy" },
   { name: "Privacy Policy", href: "/privacy-policy" },
   { name: "Terms", href: "/terms" }
 ];
 
-// Osty-style premium curtain animation (NO CHANGE)
 const menuVariants = {
   initial: { clipPath: "inset(0% 0% 100% 0%)" },
   animate: { 
@@ -54,16 +52,13 @@ export default function Navbar() {
 
   // Smooth scroll handler function
   const handleScroll = (e, href) => {
-    // Check agar link "#" se shuru ho raha hai (matlab same page ka section hai)
     if (href.startsWith("#")) {
       e.preventDefault();
-      const targetId = href.substring(1); // "#" hata kar ID lo
+      const targetId = href.substring(1);
       const element = document.getElementById(targetId);
       
       if (element) {
-        // Smoothly wahan tak scroll karo
         element.scrollIntoView({ behavior: "smooth" });
-        // Agar mobile menu khula hai, toh usko band kar do
         setOpen(false);
       }
     }
@@ -71,17 +66,23 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Navbar Desktop */}
+      {/* Navbar Desktop & Mobile Top Bar */}
       <header className="fixed top-0 left-0 w-full z-40 bg-white/95 backdrop-blur-xl text-black transition-all duration-300 border-b border-gray-100/50">
-        <div className="max-w-[90rem] mx-auto flex items-center justify-between px-6 md:px-12 py-6">
+        
+        {/* MEDIUM PADDING: py-4 for mobile, py-6 for desktop */}
+        <div className="max-w-[90rem] mx-auto flex items-center justify-between px-6 md:px-12 py-4 md:py-5 lg:py-6">
 
-          {/* Logo */}
+          {/* MEDIUM LOGO: h-12 for mobile, scaling up for larger screens */}
           <Link
             href="#home"
             onClick={(e) => handleScroll(e, "#home")}
-            className="text-xl md:text-2xl font-black tracking-[0.15em] uppercase text-black"
+            className="flex items-center"
           >
-            STONENOX
+            <img 
+              src="/images/Tex.png" 
+              alt="Stonenox Logo" 
+              className="h-15 md:h-14 lg:h-16 w-auto object-contain transition-all" 
+            />
           </Link>
 
           {/* Desktop Menu */}
@@ -104,7 +105,6 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* Minimalist More Dropdown */}
             <div
               className="relative py-2"
               onMouseEnter={() => setMoreOpen(true)}
@@ -140,7 +140,6 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
 
-            {/* Sharp CTA Button */}
             <Link
               href="/plans"
               className="ml-4 px-8 py-3.5 text-[12px] font-bold uppercase tracking-[0.1em] border border-black text-black hover:bg-black hover:text-white transition-colors duration-300"
@@ -149,12 +148,12 @@ export default function Navbar() {
             </Link>
           </nav>
 
-          {/* Mobile Toggle */}
+          {/* Mobile Toggle Button (Medium Size: 30) */}
           <button
             onClick={() => setOpen(true)}
-            className="lg:hidden text-black p-2 z-50"
+            className="lg:hidden text-black p-1 z-50"
           >
-            <Menu size={32} strokeWidth={1.5} />
+            <Menu size={30} strokeWidth={1.5} />
           </button>
         </div>
       </header>
@@ -169,16 +168,22 @@ export default function Navbar() {
             exit="exit"
             className="fixed inset-0 bg-white z-50 flex flex-col justify-center px-8 sm:px-16 overflow-hidden"
           >
-            {/* Top Bar inside Menu */}
-            <div className="absolute top-0 left-0 w-full flex justify-between items-center px-6 py-6 sm:px-12 sm:py-8">
-              <span className="text-xl font-black tracking-[0.15em] uppercase text-black">
-                STONENOX
+            {/* Top Bar inside Fullscreen Menu */}
+            <div className="absolute top-0 left-0 w-full flex justify-between items-center px-6 py-5 sm:px-12 sm:py-6">
+              
+              <span className="flex items-center">
+                <img 
+                  src="/images/Tex.png" 
+                  alt="Stonenox Logo" 
+                  className="h-12 sm:h-14 w-auto object-contain" 
+                />
               </span>
+
               <button 
                 onClick={() => setOpen(false)} 
-                className="text-black p-2 hover:rotate-90 transition-transform duration-500"
+                className="text-black p-1 hover:rotate-90 transition-transform duration-500"
               >
-                <X size={36} strokeWidth={1.5} />
+                <X size={34} strokeWidth={1.5} />
               </button>
             </div>
 
@@ -187,9 +192,8 @@ export default function Navbar() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-12 mt-16"
+              className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-10 mt-12"
             >
-              {/* Massive Main Links */}
               <div className="flex flex-col gap-4 sm:gap-6">
                 {mainLinks.map((link) => (
                   <motion.div key={link.name} variants={slideUpVars} className="overflow-hidden">
@@ -200,7 +204,7 @@ export default function Navbar() {
                     >
                       {link.name}
                       {link.tag && (
-                        <span className="text-xs sm:text-sm px-3 py-1 bg-black text-white font-bold tracking-widest align-middle mt-2">
+                        <span className="text-[10px] sm:text-xs px-2 py-1 bg-black text-white font-bold tracking-widest align-middle mt-2">
                           {link.tag}
                         </span>
                       )}
@@ -209,10 +213,9 @@ export default function Navbar() {
                 ))}
               </div>
 
-              {/* Minimalist Sub Links */}
               <div className="flex flex-col gap-3 pb-2">
-                <motion.div variants={slideUpVars} className="overflow-hidden mb-2">
-                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-500">
+                <motion.div variants={slideUpVars} className="overflow-hidden mb-1">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-500">
                     Explore More
                   </span>
                 </motion.div>
@@ -222,17 +225,17 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       onClick={(e) => handleScroll(e, link.href)}
-                      className="text-lg sm:text-xl font-medium text-gray-500 hover:text-black transition-colors"
+                      className="text-base sm:text-lg font-medium text-gray-500 hover:text-black transition-colors"
                     >
                       {link.name}
                     </Link>
                   </motion.div>
                 ))}
                 
-                <motion.div variants={slideUpVars} className="overflow-hidden mt-6">
+                <motion.div variants={slideUpVars} className="overflow-hidden mt-4">
                   <Link
                     href="/plans"
-                    className="inline-block px-10 py-4 text-sm font-bold uppercase tracking-[0.1em] border border-black bg-black text-white hover:bg-transparent hover:text-black transition-colors duration-300"
+                    className="inline-block px-8 py-3 text-xs font-bold uppercase tracking-[0.1em] border border-black bg-black text-white hover:bg-transparent hover:text-black transition-colors duration-300"
                   >
                     View Plans
                   </Link>
