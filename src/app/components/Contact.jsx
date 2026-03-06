@@ -1,99 +1,144 @@
-import { FaWhatsapp, FaPhoneAlt, FaShieldAlt, FaHandshake, FaUserCheck } from 'react-icons/fa';
+'use client';
 
-export default function Contact() {
+import React from 'react';
+import { motion } from 'framer-motion';
+import { FaWhatsapp, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { Navigation } from "lucide-react"; // Direction icon
+
+// --- ANIMATION VARIANTS ---
+const fadeUpVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+};
+
+export default function ContactSection() {
+  
+  // Contact Links
+  const whatsappUrl = "https://wa.me/919131460470?text=Hello%20Stonenox!%20Let's%20discuss%20my%20project.";
+  const callUrl = "tel:+919131460470";
+  const mailUrl = "mailto:support@stonenox.com";
+  // Direct Google Maps Route Link to Sindhi Colony, Bilaspur
+  const directionUrl = "https://www.google.com/maps/dir/?api=1&destination=Sindhi+Colony,+Bilaspur,+Chhattisgarh+495001";
+
+  // Map Embed Link for showing the location
+  const mapEmbedUrl = "https://maps.google.com/maps?q=Sindhi%20Colony,%20Bilaspur,%20Chhattisgarh&t=m&z=15&output=embed&iwloc=near";
+
+  const contactButtons = [
+    {
+      name: "WhatsApp",
+      icon: <FaWhatsapp size={32} />,
+      link: whatsappUrl,
+      hoverBg: "hover:bg-[#25D366]",
+      textColor: "text-[#25D366]"
+    },
+    {
+      name: "Call Us",
+      icon: <FaPhoneAlt size={28} />,
+      link: callUrl,
+      hoverBg: "hover:bg-slate-900",
+      textColor: "text-slate-900"
+    },
+    {
+      name: "Email",
+      icon: <FaEnvelope size={28} />,
+      link: mailUrl,
+      hoverBg: "hover:bg-blue-600",
+      textColor: "text-blue-600"
+    },
+    {
+      name: "Directions",
+      icon: <Navigation size={32} strokeWidth={2} />,
+      link: directionUrl,
+      hoverBg: "hover:bg-red-500",
+      textColor: "text-red-500"
+    }
+  ];
+
   return (
-    <section id="contact" className="py-24 bg-[#050505] px-6 border-t border-zinc-900">
-      <div className="max-w-7xl mx-auto">
+    <section id="contact" className="bg-slate-50 py-16 md:py-24 overflow-hidden font-sans selection:bg-black selection:text-white border-t border-slate-200">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
         
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        {/* --- MINIMAL HEADER --- */}
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUpVariants}
+          className="mb-10 text-center md:text-left"
+        >
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase">
+            Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Connect.</span>
+          </h2>
+        </motion.div>
+
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-stretch h-full">
           
-          {/* Left Side: Trust & Branding */}
-          <div>
-            <h2 className="text-orange-600 text-[10px] font-black uppercase tracking-[0.5em] mb-6 underline decoration-orange-600/30 underline-offset-8">
-              Start Your Journey
-            </h2>
-            <h3 className="text-5xl md:text-7xl font-black uppercase italic leading-[0.85] tracking-tighter text-white mb-10">
-              TRUST THE <br /> <span className="text-zinc-800">LAHTRE PROCESS</span>
-            </h3>
+          {/* --- LEFT: ICON ONLY GRID (Apple Control Center Style) --- */}
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="w-full lg:w-1/3 grid grid-cols-2 gap-4 h-full"
+          >
+            {contactButtons.map((btn, idx) => (
+              <motion.a
+                key={idx}
+                variants={fadeUpVariants}
+                href={btn.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`group relative flex flex-col items-center justify-center p-8 bg-white border border-slate-200 rounded-[2rem] shadow-sm transition-all duration-300 ${btn.hoverBg} hover:border-transparent hover:-translate-y-1 hover:shadow-xl aspect-square`}
+              >
+                {/* Icon */}
+                <div className={`transition-all duration-300 group-hover:text-white group-hover:scale-110 group-hover:-rotate-3 ${btn.textColor}`}>
+                  {btn.icon}
+                </div>
+                
+                {/* Minimal Label (Appears cleanly below) */}
+                <span className="absolute bottom-6 text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-white/90 transition-colors duration-300">
+                  {btn.name}
+                </span>
+              </motion.a>
+            ))}
+          </motion.div>
+
+          {/* --- RIGHT: THE CINEMATIC MAP --- */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="w-full lg:w-2/3 h-[400px] lg:h-auto min-h-[400px] rounded-[2rem] overflow-hidden shadow-lg border-[4px] border-white relative group bg-slate-200"
+          >
+            <iframe
+              src={mapEmbedUrl}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="grayscale-[30%] group-hover:grayscale-0 transition-all duration-1000 w-full h-full object-cover"
+            ></iframe>
             
-            <div className="space-y-8">
-              <div className="flex gap-6 items-start">
-                <div className="h-12 w-12 rounded-2xl bg-zinc-900 flex items-center justify-center text-orange-600 flex-shrink-0">
-                  <FaShieldAlt size={24} />
-                </div>
-                <div>
-                  <h4 className="text-white font-black uppercase text-sm tracking-widest">100% Transparency</h4>
-                  <p className="text-zinc-500 text-xs leading-relaxed mt-1 italic">Humare har deal me zero hidden charges aur direct owner se baat hoti hai.</p>
-                </div>
-              </div>
-
-              <div className="flex gap-6 items-start">
-                <div className="h-12 w-12 rounded-2xl bg-zinc-900 flex items-center justify-center text-blue-500 flex-shrink-0">
-                  <FaUserCheck size={24} />
-                </div>
-                <div>
-                  <h4 className="text-white font-black uppercase text-sm tracking-widest">Lahre Group Guarantee</h4>
-                  <p className="text-zinc-500 text-xs leading-relaxed mt-1 italic">Chhattisgarh ka apna group. Hum tab tak nahi rukte jab tak aapka business digital na ho jaye.</p>
-                </div>
-              </div>
-
-              <div className="flex gap-6 items-start">
-                <div className="h-12 w-12 rounded-2xl bg-zinc-900 flex items-center justify-center text-emerald-500 flex-shrink-0">
-                  <FaHandshake size={24} />
-                </div>
-                <div>
-                  <h4 className="text-white font-black uppercase text-sm tracking-widest">Zero Brokerage</h4>
-                  <p className="text-zinc-500 text-xs leading-relaxed mt-1 italic">Room, Land, ya PG—hum seedha owner se connect karate hain. Bich me koi brokerage nahi.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side: Direct Contact Cards */}
-          <div className="space-y-6">
-            <div className="p-1 text-center bg-zinc-900/20 rounded-[3rem] border border-white/5">
-              
-              {/* WhatsApp Mega Button */}
-              <a 
-                href="https://wa.me/919131460470" 
-                className="group flex flex-col items-center justify-center p-12 bg-[#25D366] rounded-[2.8rem] transition-all hover:scale-[0.98] active:scale-95"
-              >
-                <FaWhatsapp className="text-white text-6xl mb-4 group-hover:animate-bounce" />
-                <span className="text-white font-black uppercase tracking-[0.2em] text-xl">WhatsApp Chat</span>
-                <span className="text-white/80 text-[10px] font-bold uppercase mt-2">Instant Response (Available 24/7)</span>
-              </a>
-
-              {/* Call Mega Button */}
-              <a 
-                href="tel:+919131460470" 
-                className="group flex flex-col items-center justify-center p-12 mt-4 bg-white rounded-[2.8rem] transition-all hover:scale-[0.98] active:scale-95"
-              >
-                <FaPhoneAlt className="text-black text-5xl mb-4 group-hover:rotate-12 transition-transform" />
-                <span className="text-black font-black uppercase tracking-[0.2em] text-xl">Call Director</span>
-                <span className="text-zinc-500 text-[10px] font-bold uppercase mt-2">9131460470 (Direct Office Line)</span>
-              </a>
-            </div>
-
-            {/* Location Tag */}
-            <div className="text-center">
-              <p className="text-zinc-700 text-[9px] font-black uppercase tracking-[0.5em]">
-                Operating All Over Chhattisgarh • Raipur • Bhilai • Bilaspur
+            {/* Address Overlay Badge */}
+            <div className="absolute top-6 left-6 right-6 md:right-auto bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/50">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-1">
+                Stonenox HQ
+              </p>
+              <p className="text-slate-900 text-sm font-bold leading-snug">
+                Sindhi Colony, Bilaspur <br />
+                Chhattisgarh 495001
               </p>
             </div>
-          </div>
+          </motion.div>
 
-        </div>
-
-        {/* Final Footer Line */}
-        <div className="mt-32 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-           <p className="text-zinc-600 text-[10px] font-bold uppercase tracking-widest">
-             © 2026 Lahre IT Solutions. All Rights Reserved.
-           </p>
-           <div className="flex gap-8">
-              <span className="text-zinc-800 text-[10px] font-black uppercase tracking-widest italic underline decoration-orange-600/50 underline-offset-4">
-                Powered by Lahre Group
-              </span>
-           </div>
         </div>
 
       </div>
